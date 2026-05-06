@@ -120,7 +120,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     checks.append(("repo key_pool sanitized", not _scan_file(root / "key_pool.json"), "key_pool.json"))
 
     raw_secret_hits = []
-    for candidate in (root / "key_pool.json", root / "config" / "Owner_profile.yaml"):
+    for candidate in (root / "key_pool.json", root / "config" / "profile.template.yaml"):
         hits = _scan_file(candidate)
         if hits:
             raw_secret_hits.append(f"{candidate.name}: {', '.join(hits)}")

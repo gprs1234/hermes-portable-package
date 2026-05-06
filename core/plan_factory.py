@@ -10,8 +10,8 @@ PLAN Factory — 從點子到全自治 PLAN 的誕生引擎
   4. 主人的使用習慣決定媒介選擇
 
 用法:
-  python3 plan_factory.py create "我想做一個材料管理系統"
-  python3 plan_factory.py create --json '{"name":"材料管理","description":"..."}'
+  python3 plan_factory.py create "I want to build an inventory app"
+  python3 plan_factory.py create --json '{"name":"inventory_app","description":"..."}'
   python3 plan_factory.py list                          # 列出所有已誕生的 PLAN
   python3 plan_factory.py trace <plan_id>               # 追蹤 PLAN 的創造路徑
   python3 plan_factory.py debug <plan_id> "查庫存沒反應" # 沿創造路徑排查問題
@@ -40,7 +40,7 @@ HERMES_HOME = Path.home() / ".hermes"
 REFERENCES = HERMES_HOME / "references"
 REGISTRY_DIR = HERMES_HOME / "plan_registry"
 REGISTRY_FILE = REGISTRY_DIR / "registry.json"
-PROFILE_FILE = REFERENCES / "Owner_profile.yaml"
+PROFILE_FILE = REFERENCES / "profile.template.yaml"
 FACTORY_DIR = HERMES_HOME / "plan_factory"
 PLANS_DIR = FACTORY_DIR / "plans"
 
@@ -85,7 +85,7 @@ def now_iso():
 def analyze_idea(description, profile):
     """
     分析一個點子，自動決定 PLAN 的各項參數。
-    基於 Owner 的使用習慣資料庫做判斷。
+    基於 User 的使用習慣資料庫做判斷。
     """
     plan = {
         "description": description,
@@ -113,7 +113,7 @@ def infer_users(description):
     for kw in keywords_team:
         if kw in description:
             return {"type": "multi", "note": f"偵測到「{kw}」，需要多人存取"}
-    return {"type": "single", "note": "Owner 獨自使用"}
+    return {"type": "single", "note": "User 獨自使用"}
 
 
 def infer_scenario(description):
@@ -155,8 +155,8 @@ def infer_integrations(description):
     integrations = []
     if any(kw in description for kw in ["POS", "pos", "收銀"]):
         integrations.append("pos-backend")
-    if any(kw in description for kw in ["交易", "Trading", "MT4", "EA"]):
-        integrations.append("trading")
+    if any(kw in description for kw in ["automation", "workflow", "integration"]):
+        integrations.append("automation")
     if any(kw in description for kw in ["Notion", "notion"]):
         integrations.append("notion")
     if any(kw in description for kw in ["Google", "google", "日曆"]):
@@ -176,10 +176,10 @@ def decide_channels(analysis, profile):
     scenarios = analysis.get("usage_scenario", [])
     realtime = analysis.get("realtime_need", "low")
     
-    # Telegram 幾乎一定需要（Owner 主要介面）
+    # Telegram 幾乎一定需要（User 主要介面）
     tg_config = {
         "type": "telegram",
-        "reason": "Owner 主要通訊介面",
+        "reason": "User 主要通訊介面",
         "features": ["查詢", "通知", "操作"],
         "bot_name": None,  # 待自動生成
         "bot_token": None,  # 待自動創建
@@ -219,7 +219,7 @@ def decide_data_layer(analysis, profile):
         db["sync"] = "needed"
         db["note"] = "多人使用需要同步機制"
     
-    # 如果接 POS 或 Trading → 需要 API
+    # 如果接 POS 或 automation → 需要 API
     if integrations:
         db["api_layer"] = True
         db["integrations"] = integrations
@@ -258,7 +258,7 @@ def decide_autonomy_rules(analysis, profile):
     """Phase 5: 決定自治規則"""
     rules = {
         "auto_fix": list(profile.get("autonomy_rules", {}).get("auto_fix", [])),
-        "notify_owner": list(profile.get("autonomy_rules", {}).get("notify_owner", [])),
+        "notify_User": list(profile.get("autonomy_rules", {}).get("notify_User", [])),
         "silent": list(profile.get("autonomy_rules", {}).get("silent", [])),
         "escalation_threshold": "CRITICAL",
         "report_frequency": "daily_summary",
@@ -269,7 +269,7 @@ def decide_autonomy_rules(analysis, profile):
         rules["report_frequency"] = "realtime"
     
     if analysis.get("existing_integrations"):
-        rules["notify_owner"].append("外部 API 連線失敗")
+        rules["notify_User"].append("外部 API 連線失敗")
     
     return rules
 
@@ -555,7 +555,7 @@ def create_plan_bot(plan_name, plan_id):
     plan_dir = PLANS_DIR / plan_id
     plan_dir.mkdir(parents=True, exist_ok=True)
 
-    bot_name = f"@Owner_{plan_id}_bot"
+    bot_name = f"@User_{plan_id}_bot"
     bot_description = f"{plan_name} — 專屬管理機器人"
 
     # ─── 1. bot_config.yaml ──────────────────────────────────
@@ -573,7 +573,7 @@ def create_plan_bot(plan_name, plan_id):
             "step_1": f"在 Telegram 開啟 @BotFather",
             "step_2": f"輸入 /newbot",
             "step_3": f"名稱: {plan_name} Bot",
-            "step_4": f"username: Owner_{plan_id}_bot",
+            "step_4": f"username: User_{plan_id}_bot",
             "step_5": "取得 token 後填入此檔的 bot_token 欄位",
             "step_6": "執行 python3 bot_template.py 啟動 bot",
         },
@@ -1174,7 +1174,7 @@ def _gen_bot_register_template(blueprint):
     """生成 bot 註冊指引"""
     plan_id = blueprint["plan_id"]
     plan_name = blueprint["name"]
-    bot_name = "@Owner_%s_bot" % plan_id
+    bot_name = "@User_%s_bot" % plan_id
 
     lines = [
         "# Telegram Bot Registration Guide for %s" % plan_name,
@@ -1186,7 +1186,7 @@ def _gen_bot_register_template(blueprint):
         "#   - Open Telegram, search @BotFather",
         "#   - Send /newbot",
         "#   - Name: %s Bot" % plan_name,
-        "#   - Username: Owner_%s_bot" % plan_id,
+        "#   - Username: User_%s_bot" % plan_id,
         "#   - Save the token",
         "",
         "# Step 2: Configure",
@@ -1400,7 +1400,7 @@ def create_plan_blueprint(name, description, plan):
         if ch["type"] == "telegram":
             action = {
                 "action": "create_telegram_bot",
-                "description": f"創建 Telegram Bot: {bot_info['bot_name'] if bot_info else '@Owner_xxx_bot'}",
+                "description": f"創建 Telegram Bot: {bot_info['bot_name'] if bot_info else '@User_xxx_bot'}",
                 "steps": bot_info["next_steps"] if bot_info else [
                     "1. 決定 bot 名稱（跟 PLAN 相關）",
                     "2. 呼叫 BotFather 創建 bot",
@@ -1430,8 +1430,8 @@ def create_plan_blueprint(name, description, plan):
 
 def infer_domain(description):
     """推斷 PLAN 所屬領域"""
-    if any(kw in description for kw in ["交易", "Trading", "策略", "競技場"]):
-        return "trading"
+    if any(kw in description for kw in ["automation", "automation", "automation", "automation"]):
+        return "automation"
     if any(kw in description for kw in ["POS", "收銀", "訂單"]):
         return "pos"
     if any(kw in description for kw in ["材料", "庫存", "倉庫"]):
@@ -1540,7 +1540,7 @@ def create_plan(name, description):
     PLAN 工廠的主入口。
     從一個點子開始，走完 Phase 1-8，產出完整藍圖。
     """
-    # 載入 Owner 使用習慣
+    # 載入 User 使用習慣
     profile = load_yaml(PROFILE_FILE)
     
     print(f"\n{'='*60}")
@@ -1589,7 +1589,7 @@ def create_plan(name, description):
     autonomy = decide_autonomy_rules(analysis, profile)
     plan["phases"]["phase_5_autonomy"] = autonomy
     print(f"    自動處理: {len(autonomy['auto_fix'])} 條規則")
-    print(f"    通知主人: {len(autonomy['notify_owner'])} 條規則")
+    print(f"    通知主人: {len(autonomy['notify_User'])} 條規則")
     print(f"    報告頻率: {autonomy['report_frequency']}")
     
     # 建立創造路徑
@@ -1679,7 +1679,7 @@ def register_plan(entry):
             description=entry.get("description", ""),
             heartbeat_path=entry.get("heartbeat_path", ""),
             domain=entry.get("domain", "general"),
-            owner="Owner",
+            owner="user",
         )
         return
     except Exception as exc:
@@ -1694,7 +1694,7 @@ def register_plan(entry):
         "name": entry["name"],
         "description": entry.get("description", ""),
         "domain": entry.get("domain", "general"),
-        "owner": "Owner",
+        "owner": "user",
         "created_at": now_iso(),
         "status": "registered",
         "heartbeat": {

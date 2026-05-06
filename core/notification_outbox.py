@@ -66,7 +66,7 @@ def _send_telegram(message: str, escape: bool = True) -> bool:
     """Send message via Telegram API. Returns True on success.
 
     By default the message is escaped for MarkdownV2 so that plan_ids
-    containing ``_`` (board_bot, hermes_tg_bot) won't break parse_entities.
+    containing ``_`` in plan IDs will not break parse_entities.
     """
     token, chat_id = _get_config()
     if not token or not chat_id or requests is None:

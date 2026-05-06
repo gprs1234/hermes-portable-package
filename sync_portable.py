@@ -28,13 +28,10 @@ SOURCE_MAP = {
     "core/plan_factory.py": HERMES_HOME / "plan_factory" / "plan_factory.py",
     "core/watchdog.py": HERMES_HOME / "plan_registry" / "watchdog.py",
     "core/conflict_detector.py": HERMES_HOME / "plan_registry" / "conflict_detector.py",
-    "config/Owner_profile.yaml": HERMES_HOME / "references" / "Owner_profile.yaml",
-    "knowledge/full_architecture.md": HERMES_HOME / "references" / "full_architecture.md",
-    "knowledge/architecture_review.md": HERMES_HOME / "references" / "architecture_review.md",
-    "knowledge/plan_factory_design.md": HERMES_HOME / "references" / "plan_factory_design.md",
-    "knowledge/opus47_review_prompt.md": HERMES_HOME / "references" / "opus47_review_prompt.md",
-    "scripts/trading_server_monitor.py": HERMES_HOME / "scripts" / "trading_server_monitor.py",
-    "scripts/ai_company_monitor.py": HERMES_HOME / "scripts" / "ai_company_monitor.py",
+    "config/profile.template.yaml": HERMES_HOME / "references" / "profile.template.yaml",
+    "knowledge/architecture.template.md": HERMES_HOME / "references" / "architecture.template.md",
+    "knowledge/plan_factory.template.md": HERMES_HOME / "references" / "plan_factory.template.md",
+    "knowledge/active_context.template.md": HERMES_HOME / "references" / "active_context.template.md",
 }
 
 

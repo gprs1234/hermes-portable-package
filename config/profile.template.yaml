@@ -47,7 +47,7 @@ autonomy_rules:
 
   notify_owner:
     - "critical_issue"
-    - "money_or_trading_related"
+    - "money_related"
     - "requires_api_key_or_account"
     - "requires_business_decision"
     - "new_system_online"

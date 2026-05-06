@@ -15,12 +15,12 @@ Usage:
 
 Integration:
     from conflict_detector import check_conflict, acquire_lock, release_lock
-    result = check_conflict("arena", "ea_bridge", "restart")
+    result = check_conflict("gateway", "gateway", "restart")
     if result["safe"]:
-        ok = acquire_lock("arena", "ea_bridge", "restart")
+        ok = acquire_lock("gateway", "gateway", "restart")
         if ok:
             # do the restart
-            release_lock("arena", "ea_bridge")
+            release_lock("gateway", "gateway")
 """
 
 import json
@@ -39,13 +39,11 @@ LOCK_TTL_SECONDS = 300  # 5 minutes
 
 # ─── Resource Registry ──────────────────────────────────────────
 RESOURCES = {
-    "ea_bridge": {"type": "service", "owners": ["arena"], "restart_safe": True},
-    "simulator": {"type": "service", "owners": ["arena"], "restart_safe": True},
-    "server_file": {"type": "service", "owners": ["trading-server"], "restart_safe": True},
-    "board_bot": {"type": "service", "owners": ["board-bot"], "restart_safe": True},
+    "registry": {"type": "file", "owners": ["registry"], "write_safe": True},
     "watchdog": {"type": "service", "owners": ["watchdog"], "restart_safe": True},
-    "arena/live_data": {"type": "directory", "owners": ["arena"], "write_safe": True},
-    "leaderboard": {"type": "directory", "owners": ["arena"], "write_safe": True},
+    "gateway": {"type": "service", "owners": ["gateway"], "restart_safe": True},
+    "notification-bot": {"type": "service", "owners": ["notification-bot"], "restart_safe": True},
+    "runtime-logs": {"type": "directory", "owners": ["watchdog"], "write_safe": True},
 }
 
 # ─── Dependency Graph (mirrors plan_registry.py) ────────────────
@@ -56,10 +54,11 @@ from shared_deps import DEPENDENCY_GRAPH, COMPONENT_GRAPH, COMPONENT_TO_PLAN  # 
 # Resource names here MUST match keys in RESOURCES below — same vocabulary.
 # (Previously these used a third, conflicting set of names; now aligned.)
 _RESOURCE_DEPENDENCIES = {
-    "ea_bridge":   ["simulator"],   # simulator reads from ea_bridge
-    "simulator":   [],              # no known downstream resource
-    "watchdog":    ["board_bot"],   # watchdog monitors board_bot
-    "server_file": [],              # trading server is leaf in resource space
+    "registry": ["watchdog"],
+    "gateway": ["notification-bot"],
+    "watchdog": ["notification-bot"],
+    "notification-bot": [],
+    "runtime-logs": [],
 }
 
 
@@ -131,11 +130,11 @@ def check_conflict(plan_id: str, resource: str, action: str) -> dict:
 
     res_info = RESOURCES[resource]
 
-    # 2) Ownership check (advisory — non-blocking but warned)
+    # 2) Resource authority check (advisory — non-blocking but warned)
     if plan_id not in res_info["owners"]:
         conflicts.append(
             f"PLAN '{plan_id}' is not an owner of resource '{resource}'. "
-            f"Owners: {res_info['owners']}"
+            f"Allowed plans: {res_info['owners']}"
         )
 
     # 3) Is the resource already locked by someone else?

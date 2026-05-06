@@ -13,8 +13,8 @@ We track TWO views:
    ACTUAL registered plans.
 
 2. ``COMPONENT_GRAPH`` — uses fine-grained sub-component IDs
-   (``arena.ea_bridge``, ``arena.simulator`` …). This is for
-   intra-PLAN debugging tools that already know about Arena's data flow.
+   (``gateway.http``, ``notification-bot.sender`` …). This is for
+   intra-PLAN debugging tools that already know a PLAN's data flow.
 
 3. ``COMPONENT_TO_PLAN`` — maps any sub-component ID back to its owning
    top-level plan_id, so a sub-component alert can be lifted up to a
@@ -29,32 +29,25 @@ from __future__ import annotations
 
 # parent_plan -> [child plans that depend on parent]
 DEPENDENCY_GRAPH = {
-    # MT4 EA on Windows feeds Arena and the Trading Server
-    "mt4-ea":          ["arena", "trading-server"],
-    # Arena owns its full internal pipeline; trading-server reads from arena live_data
-    "arena":           ["trading-server"],
-    # Watchdog keeps these two alive
-    "watchdog":        ["board-bot", "hermes-tg-bot"],
-    # Hermes Gateway is the single egress; if it drops, the TG bot can't reach
-    "hermes-gateway":  ["hermes-tg-bot"],
+    "gateway": ["notification-bot"],
+    "registry": ["watchdog"],
+    "watchdog": ["notification-bot"],
 }
 
-# Fine-grained component flow inside Arena (A → B → C → D → E → F)
+# Fine-grained component flow examples
 COMPONENT_GRAPH = {
-    "mt4-ea":                 ["arena.ea_bridge", "trading-server"],
-    "arena.ea_bridge":        ["arena.simulator", "arena.signal_engine"],
-    "arena.simulator":        ["arena.referee", "arena.score_publisher"],
-    "arena.score_publisher":  ["arena.dashboard"],
+    "gateway.http": ["gateway.router"],
+    "gateway.router": ["notification-bot.sender"],
+    "registry.store": ["watchdog.checker"],
 }
 
 # Map sub-component IDs back to their top-level plan_id
 COMPONENT_TO_PLAN = {
-    "arena.ea_bridge":       "arena",
-    "arena.simulator":       "arena",
-    "arena.signal_engine":   "arena",
-    "arena.referee":         "arena",
-    "arena.score_publisher": "arena",
-    "arena.dashboard":       "arena",
+    "gateway.http": "gateway",
+    "gateway.router": "gateway",
+    "notification-bot.sender": "notification-bot",
+    "registry.store": "registry",
+    "watchdog.checker": "watchdog",
 }
 
 

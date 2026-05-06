@@ -80,7 +80,7 @@ Put real values in the generated local `secrets.env` or your OS keychain.
 Bad:
 
 ```json
-{"key": "sk-real-secret"}
+{"key": "<raw-secret-value>"}
 ```
 
 Good:
@@ -111,7 +111,7 @@ python -m hermes_portable.cli doctor
 
 1. Revoke and rotate any keys that were ever committed.
 2. Move real secrets into local `secrets.env`.
-3. Replace personal values in `config/Owner_profile.yaml` with placeholders.
+3. Replace personal values in `config/profile.template.yaml` with placeholders.
 4. Run `doctor` before publishing.
 5. Clean Git history before making a public release if secrets were committed.
 
