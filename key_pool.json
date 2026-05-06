@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
   "version": "0.4",
   "description": "API key pool with all supported providers. Keep raw secrets in local secrets.env or a keychain, never in Git.",
-=======
-  "version": "0.3",
-  "description": "Example API key pool. Keep raw secrets in local secrets.env or a keychain, never in Git.",
->>>>>>> push/main
   "rotation_threshold": 0.95,
   "providers": {
     "openai": {
@@ -52,7 +47,6 @@
           }
         }
       ]
-<<<<<<< HEAD
     },
     "deepseek": {
       "base_url": "https://api.deepseek.com/v1",
@@ -85,10 +79,10 @@
       ]
     },
     "banana2556": {
-      "base_url": "https://api.banana.dev/v1",
+      "base_url": "https://api.banana2556.com/v1",
       "keys": [
         {
-          "key_id": "banana2556-main",
+          "key_id": "banana-main",
           "label": "Banana2556 primary key",
           "env": "BANANA_API_KEY",
           "status": "standby",
@@ -115,11 +109,11 @@
       ]
     },
     "xiaomi": {
-      "base_url": "https://api.xiaomi.com/v1",
+      "base_url": "https://api.xiaomimimo.com/v1",
       "keys": [
         {
           "key_id": "xiaomi-main",
-          "label": "Xiaomi primary key",
+          "label": "Xiaomi MiMo primary key",
           "env": "XIAOMI_API_KEY",
           "status": "standby",
           "usage": {
@@ -130,11 +124,11 @@
       ]
     },
     "alibaba": {
-      "base_url": "https://dashscope.aliyuncs.com/v1",
+      "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
       "keys": [
         {
           "key_id": "alibaba-main",
-          "label": "Alibaba primary key",
+          "label": "Alibaba DashScope primary key",
           "env": "ALIBABA_API_KEY",
           "status": "standby",
           "usage": {
@@ -143,23 +137,6 @@
           }
         }
       ]
-    },
-    "gemini": {
-      "base_url": "https://generativelanguage.googleapis.com/v1",
-      "keys": [
-        {
-          "key_id": "gemini-main",
-          "label": "Gemini primary key (uses Google API key)",
-          "env": "GOOGLE_API_KEY",
-          "status": "standby",
-          "usage": {
-            "last_checked": null,
-            "percentage": null
-          }
-        }
-      ]
-=======
->>>>>>> push/main
     }
   },
   "rotation_log": []
