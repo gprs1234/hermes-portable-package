@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 關鍵詞生圖</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        
+        header p {
+            color: #888;
+            font-size: 0.95em;
+        }
+        
+        .input-section {
+            display: flex;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        
+        #prompt {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #333;
+            border-radius: 12px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        #prompt:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        #generate-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            white-space: nowrap;
+        }
+        
+        #generate-btn:hover { transform: scale(1.02); }
+        #generate-btn:active { transform: scale(0.98); }
+        #generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .results { grid-template-columns: 1fr; }
+        }
+        
+        .model-card {
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: border-color 0.3s;
+        }
+        
+        .model-card:hover { border-color: #555; }
+        
+        .model-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .model-name {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .model-time {
+            color: #888;
+            font-size: 0.85em;
+        }
+        
+        .model-body {
+            padding: 20px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .model-body img {
+            max-width: 100%;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .placeholder {
+            color: #555;
+            font-size: 0.95em;
+            text-align: center;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+        }
+        
+        .loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .error-msg {
+            color: #ff6b6b;
+            font-size: 0.85em;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .status-bar {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .history {
+            margin-top: 40px;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+        
+        .history h3 {
+            color: #888;
+            margin-bottom: 12px;
+        }
+        
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .history-item {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            border: 1px solid #333;
+            transition: border-color 0.2s;
+        }
+        
+        .history-item:hover { border-color: #667eea; }
+        .history-item .prompt-text { font-size: 0.85em; color: #aaa; margin-bottom: 8px; }
+        .history-item .thumb { width: 100%; border-radius: 4px; }
+        .history-item .time-text { font-size: 0.75em; color: #666; margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 關鍵詞生圖</h1>
+            <p>輸入關鍵詞，3 個 AI 模型同時生圖</p>
+        </header>
+        
+        <div class="input-section">
+            <input type="text" id="prompt" placeholder="輸入關鍵詞... 例如：一隻在太空漫步的貓" autofocus>
+            <button id="generate-btn" onclick="generate()">🎨 生圖</button>
+        </div>
+        
+        <div class="results">
+            <div class="model-card" id="card-dalle">
+                <div class="model-header">
+                    <span class="model-name">DALL-E 3</span>
+                    <span class="model-time" id="time-dalle"></span>
+                </div>
+                <div class="model-body">
+                    <div class="placeholder" id="ph-dalle">等待輸入...</div>
+                    <div class="loading" id="load-dalle"><div class="spinner"></div><div>生成中...</div></div>
+                    <img id="img-dalle" alt="DALL-E 3">
+                    <div class="error-msg" id="err-dalle"></div>
+                </div>
+            </div>
+            
+            <div class="model-card" id="card-imagen">
+                <div class="model-header">
+                    <span class="model-name">Imagen 3</span>
+                    <span class="model-time" id="time-imagen"></span>
+                </div>
+                <div class="model-body">
+                    <div class="placeholder" id="ph-imagen">等待輸入...</div>
+                    <div class="loading" id="load-imagen"><div class="spinner"></div><div>生成中...</div></div>
+                    <img id="img-imagen" alt="Imagen 3">
+                    <div class="error-msg" id="err-imagen"></div>
+                </div>
+            </div>
+            
+            <div class="model-card" id="card-flux">
+                <div class="model-header">
+                    <span class="model-name">Flux (NIM)</span>
+                    <span class="model-time" id="time-flux"></span>
+                </div>
+                <div class="model-body">
+                    <div class="placeholder" id="ph-flux">等待輸入...</div>
+                    <div class="loading" id="load-flux"><div class="spinner"></div><div>生成中...</div></div>
+                    <img id="img-flux" alt="Flux">
+                    <div class="error-msg" id="err-flux"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar" id="status"></div>
+        
+        <div class="history" id="history-section" style="display:none">
+            <h3>📜 歷史紀錄</h3>
+            <div class="history-grid" id="history-grid"></div>
+        </div>
+    </div>
+    
+    <script>
+        const history = [];
+        
+        document.getElementById('prompt').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') generate();
+        });
+        
+        async function generate() {
+            const prompt = document.getElementById('prompt').value.trim();
+            if (!prompt) return;
+            
+            const btn = document.getElementById('generate-btn');
+            btn.disabled = true;
+            btn.textContent = '⏳ 生成中...';
+            
+            // 顯示 loading
+            const models = ['dalle', 'imagen', 'flux'];
+            models.forEach(m => {
+                document.getElementById(`ph-${m}`).style.display = 'none';
+                document.getElementById(`load-${m}`).style.display = 'block';
+                document.getElementById(`img-${m}`).style.display = 'none';
+                document.getElementById(`err-${m}`).style.display = 'none';
+                document.getElementById(`time-${m}`).textContent = '';
+            });
+            
+            document.getElementById('status').textContent = '🚀 同時呼叫 3 個模型...';
+            
+            try {
+                const resp = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({prompt})
+                });
+                
+                const data = await resp.json();
+                
+                if (data.error) {
+                    document.getElementById('status').textContent = `❌ ${data.error}`;
+                    return;
+                }
+                
+                const modelMap = {
+                    'DALL-E 3': 'dalle',
+                    'Imagen 3': 'imagen',
+                    'Flux (NIM)': 'flux'
+                };
+                
+                data.results.forEach(r => {
+                    const key = modelMap[r.model] || r.model.toLowerCase();
+                    const loadEl = document.getElementById(`load-${key}`);
+                    const imgEl = document.getElementById(`img-${key}`);
+                    const errEl = document.getElementById(`err-${key}`);
+                    const timeEl = document.getElementById(`time-${key}`);
+                    
+                    if (loadEl) loadEl.style.display = 'none';
+                    
+                    if (r.image && imgEl) {
+                        imgEl.src = r.image;
+                        imgEl.style.display = 'block';
+                        if (timeEl) timeEl.textContent = `${r.time}s`;
+                    } else if (errEl) {
+                        errEl.textContent = r.error || '生成失敗';
+                        errEl.style.display = 'block';
+                    }
+                });
+                
+                document.getElementById('status').textContent = 
+                    `✅ 完成！總耗時 ${data.total_time}s`;
+                
+                // 加入歷史
+                history.unshift({
+                    prompt,
+                    results: data.results.map(r => ({
+                        model: r.model,
+                        image: r.image,
+                        time: r.time
+                    })),
+                    time: new Date().toLocaleTimeString()
+                });
+                
+                if (history.length > 20) history.pop();
+                renderHistory();
+                
+            } catch (err) {
+                document.getElementById('status').textContent = `❌ 錯誤: ${err.message}`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🎨 生圖';
+            }
+        }
+        
+        function renderHistory() {
+            const section = document.getElementById('history-section');
+            const grid = document.getElementById('history-grid');
+            
+            if (history.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+            
+            section.style.display = 'block';
+            grid.innerHTML = '';
+            
+            history.forEach((h, i) => {
+                const firstImg = h.results.find(r => r.image);
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <div class="prompt-text">${h.prompt}</div>
+                    ${firstImg ? `<img class="thumb" src="${firstImg.image}" alt="">` : ''}
+                    <div class="time-text">${h.time}</div>
+                `;
+                item.onclick = () => {
+                    document.getElementById('prompt').value = h.prompt;
+                    generate();
+                };
+                grid.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>

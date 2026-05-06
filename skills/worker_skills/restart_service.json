@@ -1,0 +1,76 @@
+{
+  "name": "restart_service",
+  "description": "重啟 Arena 服務（ea_bridge, simulator, signal_engine, referee, score_publisher）",
+  "task_type": "repair",
+  "target": "*",
+  "version": "1.0",
+  "created_date": "2026-05-01",
+  "creation_path": {
+    "why": "服務掛掉是最常見的問題，需要一個標準化的重啟流程",
+    "connects_to": [
+      "A_ea_bridge",
+      "B_simulator",
+      "C_signal_engine",
+      "D_referee",
+      "E_score_publisher"
+    ],
+    "related_issues": [
+      "服務掛掉",
+      "進程消失",
+      "意外退出"
+    ]
+  },
+  "steps": [
+    {
+      "type": "check_process",
+      "description": "確認服務是否真的沒在跑",
+      "pattern": "{service_pattern}",
+      "required": true
+    },
+    {
+      "type": "command",
+      "description": "檢查服務日誌最後幾行，看掛掉原因",
+      "command": "tail -20 {ARENA_ROOT}/arena_control/{service}.out.log 2>/dev/null || echo 'no log'"
+    },
+    {
+      "type": "command",
+      "description": "重啟服務",
+      "command": "cd {ARENA_ROOT} && python3 arena_control/{service}.py {args} >> arena_control/{service}.out.log 2>&1 &"
+    },
+    {
+      "type": "check_process",
+      "description": "等待 5 秒後確認服務已啟動",
+      "pattern": "{service_pattern}",
+      "wait_seconds": 5
+    }
+  ],
+  "parameters": {
+    "ea_bridge": {
+      "pattern": "ea_bridge.py",
+      "args": "--interval 5"
+    },
+    "arena_simulator": {
+      "pattern": "arena_simulator.py",
+      "args": "--interval 30"
+    },
+    "signal_engine": {
+      "pattern": "signal_engine.py",
+      "args": ""
+    },
+    "referee_engine": {
+      "pattern": "referee_engine.py",
+      "args": "--daemon"
+    },
+    "score_publisher": {
+      "pattern": "score_publisher.py",
+      "args": "--interval 30"
+    }
+  },
+  "execution_history": {
+    "total": 9,
+    "success": 9,
+    "failed": 0,
+    "last_executed": "2026-05-01T12:18:49.141641",
+    "last_details": "['✓ 進程 signal_engine.py: 運行中', '命令輸出: 2026-04-28T20:15:27 mode=dry_run candidates=58 best=deepseek_v4_pro/strategy_086_web_deepseek_v4_pro.py action=BUY conf=0.85 live=False block=Same strategy/bar/action as previous signal; duplicate suppressed.\\n2026-04-28T20:15:42 mode=dry_run candidates=58 best=deepseek_v4_pro/strategy_086_web_deepseek_v4_pro.py action=BUY conf=0.85 live=False block=Same strategy/bar/action as previous signal; duplicate suppressed.\\n2026-04-28T20:15:57 mode=dry_run candidates=58 best=deepseek_v4_pro/strategy_086_w', '命令輸出: ', '✓ 進程 signal_engine.py: 運行中']"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "check_disk_space",
+  "description": "檢查磁碟空間，低於門檻時警告",
+  "task_type": "diagnose",
+  "target": "*",
+  "version": "1.0",
+  "steps": [
+    {"type": "command", "description": "檢查根分割區使用率", "command": "df -h / | tail -1"},
+    {"type": "command", "description": "檢查 /home 使用率", "command": "df -h /home | tail -1"}
+  ],
+  "execution_history": {"total": 0, "success": 0, "failed": 0}
+}

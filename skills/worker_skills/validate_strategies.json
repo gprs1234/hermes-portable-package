@@ -1,0 +1,43 @@
+{
+  "name": "validate_strategies",
+  "description": "驗證策略檔案的格式（STRATEGY_META + generate_signal）",
+  "task_type": "validate",
+  "target": "B_simulator",
+  "version": "1.0",
+  "created_date": "2026-05-01",
+  "creation_path": {
+    "why": "策略格式錯誤會導致 simulator 和 signal_engine 載入失敗",
+    "connects_to": [
+      "B_simulator",
+      "C_signal_engine",
+      "G_generators"
+    ],
+    "related_issues": [
+      "STRATEGY_META 缺失",
+      "generate_signal 缺失",
+      "import 錯誤"
+    ]
+  },
+  "steps": [
+    {
+      "type": "command",
+      "description": "掃描所有模組的 active 策略，檢查 STRATEGY_META 和 generate_signal",
+      "command": "cd {ARENA_ROOT} && for mod in contestants/*/active; do for f in $mod/strategy_*.py $mod/*_recovery_*.py; do [ -f \"$f\" ] || continue; has_meta=$(grep -c 'STRATEGY_META' \"$f\" 2>/dev/null); has_func=$(grep -c 'def generate_signal' \"$f\" 2>/dev/null); if [ \"$has_meta\" -eq 0 ] || [ \"$has_func\" -eq 0 ]; then echo \"INVALID: $f (meta=$has_meta, func=$has_func)\"; fi; done; done | head -50"
+    },
+    {
+      "type": "command",
+      "description": "計算每模組策略數量",
+      "command": "cd {ARENA_ROOT}/contestants && for mod in */; do count=$(ls -1 \"$mod/active/\"strategy_*.py \"$mod/active/\"*_recovery_*.py 2>/dev/null | wc -l); echo \"$mod: $count 個策略\"; done"
+    },
+    {
+      "type": "command",
+      "description": "檢查是否有危險 import（os, subprocess, requests）",
+      "command": "cd {ARENA_ROOT}/contestants && grep -rl 'import os\\|import subprocess\\|import requests\\|import socket' --include='*.py' */active/ 2>/dev/null | head -20 || echo '安全：無危險 import'"
+    }
+  ],
+  "execution_history": {
+    "total": 0,
+    "success": 0,
+    "failed": 0
+  }
+}

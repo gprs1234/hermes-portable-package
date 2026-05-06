@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Local runtime and secrets
+.env
+*.env
+secrets.env
+local-portable/
+local-hermes/
+runtime/
+logs/
+backups/
+*.log
+*.pid
+*.lock
+
+# Hermes runtime state
+registry.json
+registry_log.json
+events.jsonl
+watchdog_state.json
+watchdog_heartbeat.json
+*_heartbeat.json
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

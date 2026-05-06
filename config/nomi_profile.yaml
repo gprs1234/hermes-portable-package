@@ -1,0 +1,57 @@
+# Hermes Portable profile template.
+# Copy this file into your local Hermes home and fill in machine/user-specific values.
+# Do not commit real chat IDs, bot tokens, account names, or private preferences.
+
+profile:
+  name: "Your Name"
+  telegram_id_env: "TELEGRAM_CHAT_ID"
+  timezone: "UTC+8"
+  language: "繁體中文"
+
+devices:
+  primary: "mobile"
+  secondary: "desktop"
+
+preferences:
+  interface_priority:
+    - "Telegram"
+    - "Web Dashboard"
+    - "CLI"
+
+  notifications:
+    important: "instant"
+    normal: "daily_summary"
+    low: "silent"
+
+  communication:
+    style: "concise"
+    format: "list_first"
+    language: "繁體中文"
+
+  tech:
+    backend: "Python"
+    database_small: "SQLite"
+    database_large: "PostgreSQL"
+    api: "FastAPI"
+    bot: "python-telegram-bot"
+    dashboard: "Flask + HTML"
+
+autonomy_rules:
+  mode: "supervised"
+
+  auto_fix:
+    - "service_down -> propose_restart"
+    - "data_format_error -> propose_repair"
+    - "disk_full -> propose_log_cleanup"
+    - "repeated_issue -> propose_skill"
+
+  notify_owner:
+    - "critical_issue"
+    - "money_or_trading_related"
+    - "requires_api_key_or_account"
+    - "requires_business_decision"
+    - "new_system_online"
+
+  silent:
+    - "low_severity"
+    - "successful_auto_fix_summary"

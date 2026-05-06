@@ -1,0 +1,60 @@
+{
+  "name": "check_ea_connection",
+  "description": "檢查 EA 與 MT4 的連線狀態、帳戶資訊、最新價格",
+  "task_type": "diagnose",
+  "target": "A_ea_bridge",
+  "version": "1.0",
+  "created_date": "2026-05-01",
+  "creation_path": {
+    "why": "EA 斷線是最高優先的問題，所有下游都依賴它",
+    "connects_to": [
+      "A_ea_bridge"
+    ],
+    "depends_on_awareness": "沒有 A，B/C/D/E/F 全部斷",
+    "related_issues": [
+      "price=0",
+      "balance=0",
+      "CSV 停止更新"
+    ]
+  },
+  "steps": [
+    {
+      "type": "check_process",
+      "description": "EA Bridge 進程是否運行",
+      "pattern": "ea_bridge.py"
+    },
+    {
+      "type": "check_json",
+      "description": "EA 連線狀態",
+      "path": "{ARENA_ROOT}/signals/ea_bridge_status.json",
+      "field": "connected",
+      "condition": "not_null"
+    },
+    {
+      "type": "check_json",
+      "description": "帳戶餘額",
+      "path": "{ARENA_ROOT}/signals/ea_bridge_status.json",
+      "field": "balance",
+      "condition": "not_zero"
+    },
+    {
+      "type": "check_csv",
+      "description": "M15 CSV 是否更新",
+      "path": "{ARENA_ROOT}/live_data/data_xauusd_M15.csv",
+      "max_age_minutes": 10
+    },
+    {
+      "type": "check_csv",
+      "description": "H1 CSV 是否更新",
+      "path": "{ARENA_ROOT}/live_data/data_xauusd_H1.csv",
+      "max_age_minutes": 60
+    }
+  ],
+  "execution_history": {
+    "total": 4,
+    "success": 4,
+    "failed": 0,
+    "last_executed": "2026-05-01T09:01:37.275882",
+    "last_details": "['✗ 進程 ea_bridge.py: 未運行', '  connected = None', '  balance = None', '✓ CSV 更新: 0分鐘前 (門檻: 10)', '✓ CSV 更新: 0分鐘前 (門檻: 60)']"
+  }
+}

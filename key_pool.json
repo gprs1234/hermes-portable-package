@@ -1,0 +1,53 @@
+{
+  "version": "0.3",
+  "description": "Example API key pool. Keep raw secrets in local secrets.env or a keychain, never in Git.",
+  "rotation_threshold": 0.95,
+  "providers": {
+    "openai": {
+      "base_url": "https://api.openai.com/v1",
+      "keys": [
+        {
+          "key_id": "openai-main",
+          "label": "OpenAI primary key",
+          "env": "OPENAI_API_KEY",
+          "status": "active",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "google": {
+      "base_url": "https://generativelanguage.googleapis.com/v1",
+      "keys": [
+        {
+          "key_id": "google-main",
+          "label": "Google AI primary key",
+          "env": "GOOGLE_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "nvidia": {
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "keys": [
+        {
+          "key_id": "nvidia-main",
+          "label": "NVIDIA primary key",
+          "env": "NVIDIA_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    }
+  },
+  "rotation_log": []
+}
