@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hermes-portable-package"
+version = "0.2.0"
+description = "Portable template tooling for Hermes-style agent systems"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "PyYAML>=6.0",
+]
+
+[project.scripts]
+hermes-portable = "hermes_portable.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["hermes_portable*"]

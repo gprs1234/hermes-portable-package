@@ -1,0 +1,39 @@
+{
+  "name": "restart_service",
+  "description": "Generic supervised service restart template.",
+  "task_type": "repair",
+  "target": "*",
+  "version": "1.0",
+  "created_date": "template",
+  "safety": {
+    "default_mode": "dry_run",
+    "requires_approval": true,
+    "requires_allowlist": true
+  },
+  "steps": [
+    {
+      "type": "check_process",
+      "description": "Confirm whether the service process is running.",
+      "pattern": "{service_pattern}",
+      "required": true
+    },
+    {
+      "type": "command",
+      "description": "Preview restart command.",
+      "command": "{restart_command}",
+      "dry_run": true
+    },
+    {
+      "type": "check_process",
+      "description": "Confirm service is running after restart.",
+      "pattern": "{service_pattern}",
+      "wait_seconds": 5
+    }
+  ],
+  "parameters": {},
+  "execution_history": {
+    "total": 0,
+    "success": 0,
+    "failed": 0
+  }
+}

@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "version": "0.4",
   "description": "API key pool with all supported providers. Keep raw secrets in local secrets.env or a keychain, never in Git.",
+=======
+  "version": "0.3",
+  "description": "Example API key pool. Keep raw secrets in local secrets.env or a keychain, never in Git.",
+>>>>>>> push/main
   "rotation_threshold": 0.95,
   "providers": {
     "openai": {
@@ -47,6 +52,7 @@
           }
         }
       ]
+<<<<<<< HEAD
     },
     "deepseek": {
       "base_url": "https://api.deepseek.com/v1",
@@ -152,6 +158,8 @@
           }
         }
       ]
+=======
+>>>>>>> push/main
     }
   },
   "rotation_log": []

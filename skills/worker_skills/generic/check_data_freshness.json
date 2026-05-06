@@ -1,0 +1,32 @@
+{
+  "name": "check_data_freshness",
+  "description": "Generic data freshness check template.",
+  "task_type": "diagnose",
+  "target": "*",
+  "version": "1.0",
+  "created_date": "template",
+  "parameters": {
+    "data_file": "{DATA_FILE}",
+    "max_age_minutes": 30
+  },
+  "steps": [
+    {
+      "type": "check_file_mtime",
+      "description": "Check whether the configured data file was updated recently.",
+      "path": "{DATA_FILE}",
+      "max_age_minutes": "{max_age_minutes}"
+    },
+    {
+      "type": "check_json",
+      "description": "Optionally validate JSON status field.",
+      "path": "{STATUS_FILE}",
+      "field": "status",
+      "condition": "optional"
+    }
+  ],
+  "execution_history": {
+    "total": 0,
+    "success": 0,
+    "failed": 0
+  }
+}
