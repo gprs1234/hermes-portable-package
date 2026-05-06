@@ -1,0 +1,158 @@
+{
+  "version": "0.4",
+  "description": "API key pool with all supported providers. Keep raw secrets in local secrets.env or a keychain, never in Git.",
+  "rotation_threshold": 0.95,
+  "providers": {
+    "openai": {
+      "base_url": "https://api.openai.com/v1",
+      "keys": [
+        {
+          "key_id": "openai-main",
+          "label": "OpenAI primary key",
+          "env": "OPENAI_API_KEY",
+          "status": "active",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "google": {
+      "base_url": "https://generativelanguage.googleapis.com/v1",
+      "keys": [
+        {
+          "key_id": "google-main",
+          "label": "Google AI primary key",
+          "env": "GOOGLE_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "nvidia": {
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "keys": [
+        {
+          "key_id": "nvidia-main",
+          "label": "NVIDIA primary key",
+          "env": "NVIDIA_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "deepseek": {
+      "base_url": "https://api.deepseek.com/v1",
+      "keys": [
+        {
+          "key_id": "deepseek-main",
+          "label": "DeepSeek primary key",
+          "env": "DEEPSEEK_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "anthropic": {
+      "base_url": "https://api.anthropic.com/v1",
+      "keys": [
+        {
+          "key_id": "anthropic-main",
+          "label": "Anthropic primary key",
+          "env": "ANTHROPIC_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "banana2556": {
+      "base_url": "https://api.banana.dev/v1",
+      "keys": [
+        {
+          "key_id": "banana2556-main",
+          "label": "Banana2556 primary key",
+          "env": "BANANA_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "cdnipcs": {
+      "base_url": "https://aitoken.cdnipcs.com/v1",
+      "keys": [
+        {
+          "key_id": "cdnipcs-main",
+          "label": "CDNIPCS primary key",
+          "env": "CDNIPCS_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "xiaomi": {
+      "base_url": "https://api.xiaomi.com/v1",
+      "keys": [
+        {
+          "key_id": "xiaomi-main",
+          "label": "Xiaomi primary key",
+          "env": "XIAOMI_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "alibaba": {
+      "base_url": "https://dashscope.aliyuncs.com/v1",
+      "keys": [
+        {
+          "key_id": "alibaba-main",
+          "label": "Alibaba primary key",
+          "env": "ALIBABA_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    },
+    "gemini": {
+      "base_url": "https://generativelanguage.googleapis.com/v1",
+      "keys": [
+        {
+          "key_id": "gemini-main",
+          "label": "Gemini primary key (uses Google API key)",
+          "env": "GOOGLE_API_KEY",
+          "status": "standby",
+          "usage": {
+            "last_checked": null,
+            "percentage": null
+          }
+        }
+      ]
+    }
+  },
+  "rotation_log": []
+}
