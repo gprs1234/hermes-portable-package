@@ -8,7 +8,7 @@
 ## 一、現狀
 
 - CLI → TG reply 已可運作（E2E 驗通）
-- 但每個 reply 都需要 Nomi 手動 approve_send
+- 但每個 reply 都需要 Owner 手動 approve_send
 - 高風險內容需要 approve，但低風險重複性報告可以自動化
 
 ## 二、目標
@@ -59,7 +59,7 @@ def should_auto_send(reply_text, risk_level, request_type):
 - 必須寫入 audit log
 - 自動發送失敗不 retry（走 RT4 retry policy）
 - 每小時最多自動發送 N 條（防止洗版）
-- 連續 N 次自動發送失敗 → 暫停自動發送，通知 Nomi
+- 連續 N 次自動發送失敗 → 暫停自動發送，通知 Owner
 
 ## 六、實作順序
 

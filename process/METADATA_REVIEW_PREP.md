@@ -1,7 +1,7 @@
 # Metadata Review — board-bot / watchdog / trading-server
 
 日期: 2026-05-05
-需 Nomi 確認: 是
+需 Owner 確認: 是
 
 ---
 
@@ -14,7 +14,7 @@
 
 確認 `external_verified = False` 為正確狀態（表示「已 cross-check 但未經獨立外部驗證」）。
 
-不需要額外檢查。只需要 Nomi 確認：「這三個的 external_verified=false 是對的，我接受。」
+不需要額外檢查。只需要 Owner 確認：「這三個的 external_verified=false 是對的，我接受。」
 
 ## 三個 PLAN 的證據
 
@@ -44,13 +44,13 @@
 
 ## 確認後的動作
 
-如果 Nomi 確認，patch 三個 heartbeat：
+如果 Owner 確認，patch 三個 heartbeat：
 - `external_verified: false`（明確標記）
-- `metadata_reviewed_by: nomi`
+- `metadata_reviewed_by: Owner`
 - `metadata_reviewed_at: <timestamp>`
 
 不改 status、不改 health_source、不改 trust_level。
 
 ---
 
-*等 Nomi 確認後執行*
+*等 Owner 確認後執行*

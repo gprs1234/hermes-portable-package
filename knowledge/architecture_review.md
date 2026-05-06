@@ -82,7 +82,7 @@
 - **建議**: 輪換這個 key，檢查 git history
 
 **.env 檔案權限**
-- `/home/gprs1234/projects/.env` 包含所有 API key
+- `/home/<user>/projects/.env` 包含所有 API key
 - 檢查權限是否 600
 - **建議**: `chmod 600 ~/.env`
 

@@ -38,7 +38,7 @@
 檔案: `~/.hermes/company/agent_registry.json`
 - 版本: 0.1
 - Agents: 7 (ceo, coo, cto, cfo, cmo, chro, cao)
-- 每個有: mission, can_decide, can_execute, requires_nomi_confirm, requires_board, forbidden
+- 每個有: mission, can_decide, can_execute, requires_Owner_confirm, requires_board, forbidden
 
 ### 4. Concept Cell Intake Template
 

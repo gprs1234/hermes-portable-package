@@ -2,7 +2,7 @@
 
 日期: 2026-05-06
 狀態: Production
-作者: Hermes Agent + Nomi
+作者: Hermes Agent + Owner
 
 ---
 
@@ -28,7 +28,7 @@ Hermes 是一個全自治 AI Agent 系統，管理多個事業體（百大競技
 
 ```
 ┌─────────────────────────────────────────────┐
-│  Nomi（人類）— 最終決策者                    │
+│  Owner（人類）— 最終決策者                    │
 ├─────────────────────────────────────────────┤
 │  董事會 (Board) — Gateway 審批               │
 ├─────────────────────────────────────────────┤
@@ -81,7 +81,7 @@ Hermes 是一個全自治 AI Agent 系統，管理多個事業體（百大競技
 ### 2.3 Concept Intake Flow
 
 ```
-Nomi 說一個念頭
+Owner 說一個念頭
       ↓
 concept_intake.py 分類引擎（10 個分類）
   - new_business, existing_bu_problem, hypothesis,
@@ -339,7 +339,7 @@ cd ~/.hermes/process && python3 governance_dashboard_builder.py
 ### Arena
 
 ```
-/mnt/c/Users/User/Desktop/百大交易競技場/arena/
+<ARENA_ROOT>/arena/
 ├── .env                           # Arena 環境變數
 ├── arena_control/
 │   ├── plan_agent.py              # PLAN Agent
@@ -362,7 +362,7 @@ cd ~/.hermes/process && python3 governance_dashboard_builder.py
 ### GitHub
 
 ```
-https://github.com/gprs1234/hermes-agent-system
+https://github.com/<owner>/hermes-agent-system
 ├── scripts/                       # 所有腳本
 ├── process/                       # 流程文件
 ├── company/                       # Company OS

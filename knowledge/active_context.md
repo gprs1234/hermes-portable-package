@@ -71,14 +71,14 @@
 ```
 核心引擎: ~/.hermes/plan_registry/ (registry, watchdog, conflict_detector, board_connector)
 PLAN Factory: ~/.hermes/plan_factory/plan_factory.py
-Portable Package: ~/hermes-agent-system/ → github.com/gprs1234/hermes-portable-package
+Portable Package: ~/hermes-agent-system/ → github.com/<owner>/hermes-portable-package
 Notion: workspace "Ching", 頁面 ID 353fb9a8-52cc-80e6-af2f-cd979c1aa6a7
-競技場: /mnt/c/Users/User/Desktop/百大交易競技場/arena/
+競技場: <ARENA_ROOT>/arena/
 Skills: ~/.hermes/skills/ (19 個) + arena/arena_control/worker_skills/ (6 個)
 Knowledge: ~/.hermes/references/ (架構、檢視、設計、提示詞)
 ```
 
-## Nomi 偏好速查
+## Owner 偏好速查
 
 - 溝通用繁體中文
 - 介面偏好: TG > Web > CLI

@@ -40,7 +40,7 @@ HERMES_HOME = Path.home() / ".hermes"
 REFERENCES = HERMES_HOME / "references"
 REGISTRY_DIR = HERMES_HOME / "plan_registry"
 REGISTRY_FILE = REGISTRY_DIR / "registry.json"
-PROFILE_FILE = REFERENCES / "nomi_profile.yaml"
+PROFILE_FILE = REFERENCES / "Owner_profile.yaml"
 FACTORY_DIR = HERMES_HOME / "plan_factory"
 PLANS_DIR = FACTORY_DIR / "plans"
 
@@ -85,7 +85,7 @@ def now_iso():
 def analyze_idea(description, profile):
     """
     分析一個點子，自動決定 PLAN 的各項參數。
-    基於 Nomi 的使用習慣資料庫做判斷。
+    基於 Owner 的使用習慣資料庫做判斷。
     """
     plan = {
         "description": description,
@@ -113,7 +113,7 @@ def infer_users(description):
     for kw in keywords_team:
         if kw in description:
             return {"type": "multi", "note": f"偵測到「{kw}」，需要多人存取"}
-    return {"type": "single", "note": "Nomi 獨自使用"}
+    return {"type": "single", "note": "Owner 獨自使用"}
 
 
 def infer_scenario(description):
@@ -176,10 +176,10 @@ def decide_channels(analysis, profile):
     scenarios = analysis.get("usage_scenario", [])
     realtime = analysis.get("realtime_need", "low")
     
-    # Telegram 幾乎一定需要（Nomi 主要介面）
+    # Telegram 幾乎一定需要（Owner 主要介面）
     tg_config = {
         "type": "telegram",
-        "reason": "Nomi 主要通訊介面",
+        "reason": "Owner 主要通訊介面",
         "features": ["查詢", "通知", "操作"],
         "bot_name": None,  # 待自動生成
         "bot_token": None,  # 待自動創建
@@ -555,7 +555,7 @@ def create_plan_bot(plan_name, plan_id):
     plan_dir = PLANS_DIR / plan_id
     plan_dir.mkdir(parents=True, exist_ok=True)
 
-    bot_name = f"@Nomi_{plan_id}_bot"
+    bot_name = f"@Owner_{plan_id}_bot"
     bot_description = f"{plan_name} — 專屬管理機器人"
 
     # ─── 1. bot_config.yaml ──────────────────────────────────
@@ -573,7 +573,7 @@ def create_plan_bot(plan_name, plan_id):
             "step_1": f"在 Telegram 開啟 @BotFather",
             "step_2": f"輸入 /newbot",
             "step_3": f"名稱: {plan_name} Bot",
-            "step_4": f"username: Nomi_{plan_id}_bot",
+            "step_4": f"username: Owner_{plan_id}_bot",
             "step_5": "取得 token 後填入此檔的 bot_token 欄位",
             "step_6": "執行 python3 bot_template.py 啟動 bot",
         },
@@ -1174,7 +1174,7 @@ def _gen_bot_register_template(blueprint):
     """生成 bot 註冊指引"""
     plan_id = blueprint["plan_id"]
     plan_name = blueprint["name"]
-    bot_name = "@Nomi_%s_bot" % plan_id
+    bot_name = "@Owner_%s_bot" % plan_id
 
     lines = [
         "# Telegram Bot Registration Guide for %s" % plan_name,
@@ -1186,7 +1186,7 @@ def _gen_bot_register_template(blueprint):
         "#   - Open Telegram, search @BotFather",
         "#   - Send /newbot",
         "#   - Name: %s Bot" % plan_name,
-        "#   - Username: Nomi_%s_bot" % plan_id,
+        "#   - Username: Owner_%s_bot" % plan_id,
         "#   - Save the token",
         "",
         "# Step 2: Configure",
@@ -1400,7 +1400,7 @@ def create_plan_blueprint(name, description, plan):
         if ch["type"] == "telegram":
             action = {
                 "action": "create_telegram_bot",
-                "description": f"創建 Telegram Bot: {bot_info['bot_name'] if bot_info else '@Nomi_xxx_bot'}",
+                "description": f"創建 Telegram Bot: {bot_info['bot_name'] if bot_info else '@Owner_xxx_bot'}",
                 "steps": bot_info["next_steps"] if bot_info else [
                     "1. 決定 bot 名稱（跟 PLAN 相關）",
                     "2. 呼叫 BotFather 創建 bot",
@@ -1540,7 +1540,7 @@ def create_plan(name, description):
     PLAN 工廠的主入口。
     從一個點子開始，走完 Phase 1-8，產出完整藍圖。
     """
-    # 載入 Nomi 使用習慣
+    # 載入 Owner 使用習慣
     profile = load_yaml(PROFILE_FILE)
     
     print(f"\n{'='*60}")
@@ -1679,7 +1679,7 @@ def register_plan(entry):
             description=entry.get("description", ""),
             heartbeat_path=entry.get("heartbeat_path", ""),
             domain=entry.get("domain", "general"),
-            owner="nomi",
+            owner="Owner",
         )
         return
     except Exception as exc:
@@ -1694,7 +1694,7 @@ def register_plan(entry):
         "name": entry["name"],
         "description": entry.get("description", ""),
         "domain": entry.get("domain", "general"),
-        "owner": "nomi",
+        "owner": "Owner",
         "created_at": now_iso(),
         "status": "registered",
         "heartbeat": {

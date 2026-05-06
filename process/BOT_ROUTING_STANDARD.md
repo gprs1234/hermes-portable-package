@@ -21,7 +21,7 @@
 | 發送端 | 路徑 | 觸發條件 |
 |--------|------|----------|
 | Hermes CLI send_message | hermes-telegram channel | CLI 用戶指令回覆 |
-| Cron deliver | telegram:6823341162 | 排程任務報告 |
+| Cron deliver | telegram:<TELEGRAM_CHAT_ID> | 排程任務報告 |
 | tg_reply_sender.py | process/ | TG request 處理結果回覆 |
 | tg_notify.py | scripts/ | 系統級通知（watchdog, 健康檢查, 異常） |
 | notification_outbox.py | plan_registry/ | PLAN 狀態變更通知 |
@@ -104,7 +104,7 @@ BOARD_BOT_TOKEN=董事會bot的token   ← 董事會專用（如果有的話）
 - [ ] 不 hardcode bot token
 - [ ] 不把競技場訊息發到大腦
 - [ ] 不把治理訊息發到百大
-- [ ] chat_id 正確（目前統一 6823341162）
+- [ ] chat_id 正確（目前統一 <TELEGRAM_CHAT_ID>）
 
 ---
 

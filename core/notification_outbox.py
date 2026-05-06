@@ -37,7 +37,7 @@ SEVERITY_ICONS = {
 
 def _get_config():
     token = os.environ.get("HERMES_BOT_TOKEN", "")
-    chat_id = os.environ.get("CHAT_ID", "6823341162")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", os.environ.get("CHAT_ID", ""))
     return token, chat_id
 
 
@@ -69,7 +69,7 @@ def _send_telegram(message: str, escape: bool = True) -> bool:
     containing ``_`` (board_bot, hermes_tg_bot) won't break parse_entities.
     """
     token, chat_id = _get_config()
-    if not token or requests is None:
+    if not token or not chat_id or requests is None:
         return False
 
     payload = {"chat_id": chat_id}

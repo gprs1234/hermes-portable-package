@@ -7,7 +7,7 @@
 
 ## 為什麼需要 PLAN Factory
 
-Nomi 的現實：
+Owner 的現實：
 - 一天可能 1-3 個新點子
 - 不一定在電腦前
 - 每個點子對應一個項目，需要 bot/媒介/資料管理
@@ -24,11 +24,11 @@ PLAN Factory 要解決的：
 ## PLAN 的完整生命週期
 
 ```
-[誕生] Nomi 說：「我想做一個材料管理系統」
+[誕生] Owner 說：「我想做一個材料管理系統」
   │
   ▼
 [Phase 1: 需求分析] Hermes 自動問自己：
-  │  - 這個系統的使用者是誰？（Nomi 獨自？有員工？有客戶？）
+  │  - 這個系統的使用者是誰？（Owner 獨自？有員工？有客戶？）
   │  - 使用場景？（手機看？電腦操作？倉庫掃碼？）
   │  - 資料量？（每天 10 筆？每天 1000 筆？）
   │  - 需要即時嗎？（每秒？每小時？每天？）
@@ -124,12 +124,12 @@ PLAN Factory 要解決的：
 
 ---
 
-## Nomi 使用習慣資料庫
+## Owner 使用習慣資料庫
 
 PLAN Factory 要知道主人的習慣才能做出正確的媒介選擇：
 
 ```yaml
-nomi_profile:
+Owner_profile:
   主要裝置: 手機（Telegram 為主）
   電腦使用: 不固定，不一定在電腦前
   偏好介面: Telegram > Web > CLI
@@ -147,11 +147,11 @@ nomi_profile:
 ## 範例：材料管理系統的 PLAN 規劃
 
 ```
-Nomi:「我想做一個材料管理系統」
+Owner:「我想做一個材料管理系統」
 
 Hermes 自動分析：
   Q: 使用者是誰？
-  A: Nomi 自己 + 可能有員工 → 需要多人存取
+  A: Owner 自己 + 可能有員工 → 需要多人存取
 
   Q: 使用場景？
   A: 倉庫進出貨、即時查詢庫存 → 手機為主
@@ -175,7 +175,7 @@ Hermes 自動決定：
     - Telegram Bot（查詢 + 操作）
     - Flask（Dashboard）
   自治規則:
-    - 庫存低於閾值 → 自動通知 Nomi
+    - 庫存低於閾值 → 自動通知 Owner
     - 服務掛掉 → 自動重啟
     - 每日庫存摘要 → TG 推播
     - 每月報表 → 生成 PDF
@@ -188,7 +188,7 @@ Hermes 自動建造：
   5. 寫監控腳本
   6. 設 cron job
   7. 登記 PLAN Registry
-  8. 通知 Nomi:「材料管理系統已上線，TG Bot: @xxx_bot」
+  8. 通知 Owner:「材料管理系統已上線，TG Bot: @xxx_bot」
 ```
 
 ---
@@ -198,7 +198,7 @@ Hermes 自動建造：
 ```
 PLAN Factory（meta-PLAN）
   │  - 管理所有 PLAN 的誕生過程
-  │  - 維護 Nomi 使用習慣資料庫
+  │  - 維護 Owner 使用習慣資料庫
   │  - 維護技術選型資料庫
   │  - 維護媒介選擇規則
   │  - 每誕生一個新 PLAN，自動更新依賴圖
@@ -222,7 +222,7 @@ PLAN Registry
 ## 下一步
 
 1. 建 `plan_factory.py` — PLAN 誕生的核心引擎
-2. 建 `nomi_profile.yaml` — 主人使用習慣資料庫
+2. 建 `Owner_profile.yaml` — 主人使用習慣資料庫
 3. 建 `tech_selector.py` — 技術選型引擎
 4. 建 `channel_builder.py` — 媒介建造引擎
 5. 整合到 PLAN Registry — 新 PLAN 自動登記

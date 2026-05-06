@@ -47,7 +47,7 @@
     "success": 2,
     "failed": 0,
     "last_executed": "2026-05-01T09:01:37.294116",
-    "last_details": "['✓ 進程 arena_simulator.py: 運行中', '  status = None', '命令輸出: 2026-05-01T08:56:56 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:57:26 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:57:56 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:58:27 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:58:57 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:59:27 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:59:57 strategies=560 processed=0 opened=0 ', '命令輸出: -rwxrwxrwx 1 gprs1234 gprs1234 122K May  1 09:01 /mnt/c/Users/User/Desktop/百大交易競技場/arena/arena_control/arena_simulator_state.json\\n']"
+    "last_details": "['✓ 進程 arena_simulator.py: 運行中', '  status = None', '命令輸出: 2026-05-01T08:56:56 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:57:26 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:57:56 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:58:27 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:58:57 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:59:27 strategies=560 processed=0 opened=0 closed=0 errors=0\\n2026-05-01T08:59:57 strategies=560 processed=0 opened=0 ', '命令輸出: -rwxrwxrwx 1 <local-user> <local-user> 122K May  1 09:01 <ARENA_ROOT>/arena/arena_control/arena_simulator_state.json\\n']"
   },
   "_checksum": "144c2c11251b50ae"
 }

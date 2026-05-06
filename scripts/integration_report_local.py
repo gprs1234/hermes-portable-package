@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 
 HOME = Path.home()
-ARENA = Path("/mnt/c/Users/User/Desktop/百大交易競技場/arena/arena_control")
+ARENA = Path("<ARENA_ROOT>/arena/arena_control")
 
 
 def load_json(path, default=None):

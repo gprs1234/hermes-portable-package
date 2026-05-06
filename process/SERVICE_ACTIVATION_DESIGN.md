@@ -19,7 +19,7 @@ Gateway v1 封版觀察期: 5/4 ~ 5/7
 
 ### 啟動流程
 ```
-Nomi 確認要啟動
+Owner 確認要啟動
   → 董事會投票（plan_registry.board_connector）
   → board.approved
   → Gateway 驗證
@@ -33,7 +33,7 @@ Nomi 確認要啟動
 
 ### 安全規則
 - 不自動啟動任何服務
-- 必須董事會 + Nomi 雙重確認
+- 必須董事會 + Owner 雙重確認
 - 啟動後 10 分鐘內監控異常自動回滾
 - 啟動日誌寫入 audit trail
 

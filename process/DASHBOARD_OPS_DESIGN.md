@@ -51,7 +51,7 @@ hermes dashboard approve <event>  # 批准待處理事項
 ## 五、安全規則
 
 - 所有操作必須經過至少一層確認
-- 啟動/停止服務需要董事會 + Nomi final_confirm
+- 啟動/停止服務需要董事會 + Owner final_confirm
 - 操作結果必須寫入 audit trail
 - 不得繞過 Gateway 事件系統
 

@@ -71,7 +71,7 @@ Worker Agent: 查 skill → 執行 → 回報，6 個 skill（重啟、診斷、
 - 系統跑在 WSL (Linux on Windows)
 - Windows 端跑 MT4 EA，Linux 端跑所有 Python 服務
 - WSL 的 pgrep 看不到背景進程，需要用數據新鮮度判斷
-- 用戶(Nomi)只用 Telegram 溝通，無法直接操作 Linux
+- 用戶(Owner)只用 Telegram 溝通，無法直接操作 Linux
 - 用戶偏好：規則自動執行、不被動、反感「先不管」「有事叫我」
 
 請逐項給出具體、可執行的建議。不要泛泛而談，要指出具體的檔案、函式、流程。

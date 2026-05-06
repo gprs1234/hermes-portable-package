@@ -29,7 +29,7 @@ TRADING_PROJECT_DIR = HOME / "projects" / "trading"
 VENV_PYTHON = TRADING_PROJECT_DIR / ".venv" / "bin" / "python3"
 
 # EA data: read from ECMARKET EA via arena's ea_bridge (NOT /mnt/c/trading/ea_data.json which is old TMGM data)
-ARENA_ROOT = Path("/mnt/c/Users/User/Desktop/百大交易競技場/arena")
+ARENA_ROOT = Path("<ARENA_ROOT>/arena")
 EA_BRIDGE_STATUS = ARENA_ROOT / "signals" / "ea_bridge_status.json"
 EA_LIVE_DATA = ARENA_ROOT / "live_data" / "data_xauusd_M15.csv"
 

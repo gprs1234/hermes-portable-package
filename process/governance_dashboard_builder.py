@@ -509,7 +509,7 @@ def generate_md():
 
     lines.append("| Queue | Pending | Details |")
     lines.append("|-------|---------|---------|")
-    lines.append(f"| TG Request Review | {tg_pending} | 待 Nomi review 的 TG request |")
+    lines.append(f"| TG Request Review | {tg_pending} | 待 Owner review 的 TG request |")
     lines.append(f"| Context Update Review | {ctx_pending} | 待審核的 context 更新 |")
     lines.append(f"| Reply Pending | {reply_approved} | 已批准待發送的 reply |")
     lines.append(f"| Universal Queue | {up_queued} | 待分析的通用佇列項目 |")
@@ -527,7 +527,7 @@ def generate_md():
     lines.append("|------|--------|-------------|")
     lines.append("| No Trading Integration | 🔒 ACTIVE | trading-server / arena / pos-backend 全部未接入 |")
     lines.append("| No Auto Execution from TG | 🔒 ACTIVE | TG request 必須經過 review + approval 流程 |")
-    lines.append("| No Direct active_context Write | 🔒 ACTIVE | context 更新需 Nomi approve + apply 兩步確認 |")
+    lines.append("| No Direct active_context Write | 🔒 ACTIVE | context 更新需 Owner approve + apply 兩步確認 |")
     lines.append("| No Service Activation | 🔒 ACTIVE | inert PLAN 不可透過 Dashboard 啟動 |")
     lines.append("| No Board Bypass | 🔒 ACTIVE | 所有決策需經過董事會投票機制 |")
     lines.append("| Final Confirm Required | 🔒 ACTIVE | high/critical 操作需 final_confirm 才執行 |")
@@ -714,7 +714,7 @@ def generate_md():
         lines.append("")
         lines.append(f"- module_id: hermes-tg-bot")
         lines.append(f"- name: {bot_reg.get('name', '?')}")
-        lines.append(f"- role: tg_interface — Nomi 的對話窗口")
+        lines.append(f"- role: tg_interface — Owner 的對話窗口")
         lines.append(f"- description: {bot_reg.get('description', '?')}")
         lines.append(f"- status: {bot_reg.get('status', '?')}")
         lines.append(f"- domain: {bot_reg.get('domain', '?')}")
@@ -921,7 +921,7 @@ def generate_md():
         lines.append("### Safety Notes")
         lines.append("- Dashboard 不得把 CRITICAL 轉成 HEALTHY。")
         lines.append("- Dashboard 不得自動 patch board-bot / watchdog / trading-server。")
-        lines.append("- trading-server 仍 blocked，任何交易相關操作需董事會 + Nomi final_confirm。")
+        lines.append("- trading-server 仍 blocked，任何交易相關操作需董事會 + Owner final_confirm。")
         lines.append("- mt4_ea 的 manual_observed 只代表 CRITICAL 有人工接受的上下文，不代表修復。")
     else:
         lines.append("- health_source_audit_report.json 不存在或不可讀。")
@@ -997,7 +997,7 @@ def generate_md():
     lines.append("")
     lines.append("### Live Test Note")
     lines.append("- CLI→TG outbound 已有實際 sent event。")
-    lines.append("- 新鮮 TG→CLI inbound 仍需要 Nomi 從 TG 發一則真人訊息，因為 agent 無法替人類製造 inbound user message。")
+    lines.append("- 新鮮 TG→CLI inbound 仍需要 Owner 從 TG 發一則真人訊息，因為 agent 無法替人類製造 inbound user message。")
     lines.append("")
 
     # ── PI4: ai-dashboard Readonly Integration ─────────────────────
@@ -1096,7 +1096,7 @@ def generate_md():
     lines.append("Hermes 從顧問型 Agent 升級為一人公司作業系統。")
     lines.append("")
     lines.append("- operating_model: Agent Company OS (轉型中)")
-    lines.append("- owner: Nomi (方向設定 / 最終決策)")
+    lines.append("- owner: Owner (方向設定 / 最終決策)")
     lines.append("- company_os: Hermes (日常運作 / 自動化)")
     lines.append("- c_level_agents: 7 (CEO, COO, CTO, CFO, CMO, CHRO, CAO)")
     lines.append("- business_units: 1 (arena / 百大交易競技場)")
@@ -1400,7 +1400,7 @@ def build_action_checklist(plans, review, queue, ctx, requests):
             "risk_level": "low",
             "status": "available",
             "reason": f"有 {ctx_pending} 筆待審核的 context 更新",
-            "required_confirmation": "Nomi approve",
+            "required_confirmation": "Owner approve",
             "related_files": ["~/.hermes/process/context_update_pending_report.json"],
             "recommended_order": 8,
         })
@@ -1415,7 +1415,7 @@ def build_action_checklist(plans, review, queue, ctx, requests):
         "risk_level": "high",
         "status": "observe",
         "reason": "核心基礎設施（tg_interface），需 CI2+ 設計，目前已有 core_readonly_card",
-        "required_confirmation": "Core Infrastructure Integration Design + Nomi approval",
+        "required_confirmation": "Core Infrastructure Integration Design + Owner approval",
         "related_files": ["~/.hermes/process/CORE_INFRASTRUCTURE_INTEGRATION_DESIGN.md"],
         "recommended_order": 80,
     })
@@ -1467,7 +1467,7 @@ def build_action_checklist(plans, review, queue, ctx, requests):
         "risk_level": "high",
         "status": "observe",
         "reason": "觀察期內不啟動，等 Gateway 穩定後再考慮",
-        "required_confirmation": "觀察期結束 + Nomi 明確同意",
+        "required_confirmation": "觀察期結束 + Owner 明確同意",
         "related_files": ["~/.hermes/plans/"],
         "recommended_order": 90,
     })
@@ -1480,7 +1480,7 @@ def build_action_checklist(plans, review, queue, ctx, requests):
         "risk_level": "medium",
         "status": "needs_approval",
         "reason": "目前 context 更新需人工 approve，自動化需設計安全機制",
-        "required_confirmation": "Nomi approval + safety design",
+        "required_confirmation": "Owner approval + safety design",
         "related_files": ["~/.hermes/process/"],
         "recommended_order": 50,
     })
@@ -1506,7 +1506,7 @@ def build_action_checklist(plans, review, queue, ctx, requests):
         "risk_level": "medium",
         "status": "observe",
         "reason": "外部 API 依賴（GitHub），score=3，Candidate B，需先確認 API 安全邊界",
-        "required_confirmation": "API 邊界設計 + Nomi review",
+        "required_confirmation": "API 邊界設計 + Owner review",
         "related_files": ["~/.hermes/plans/mcp-github/"],
         "recommended_order": 70,
     })

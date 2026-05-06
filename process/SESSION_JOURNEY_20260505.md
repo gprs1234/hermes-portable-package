@@ -8,7 +8,7 @@
 
 ## 背景
 
-Nomi 在這之前已經用 MiMo 建立了：
+Owner 在這之前已經用 MiMo 建立了：
 - Governance Dashboard (GD1-GD3)
 - PLAN Integration (PI1-PI3)
 - Core Infrastructure (CI1-CI2)
@@ -16,7 +16,7 @@ Nomi 在這之前已經用 MiMo 建立了：
 - E2E validator (Codex)
 
 MiMo 輸出了 export package（13 檔案）給 Codex，Codex 接力跑到 usage limit 用盡。
-Nomi 要求 Opus 4.7 從 MiMo 的起點繼續迭代。
+Owner 要求 Opus 4.7 從 MiMo 的起點繼續迭代。
 
 ---
 
@@ -41,7 +41,7 @@ Nomi 要求 Opus 4.7 從 MiMo 的起點繼續迭代。
 1. 為 REQ-20260505-087 建立 reply event (EVT-RPL-E2E2-20260505-3b6c)
 2. Approve event 寫入 events.jsonl + tg_reply_approval_state.json
 3. Preflight check 通過（chat_id, bot_name, reply_hash）
-4. send_message 發到 telegram:6823341162 → message_id=294
+4. send_message 發到 telegram:<TELEGRAM_CHAT_ID> → message_id=294
 5. 更新 sent 狀態
 
 **結果：** E2E 閉環驗證完成。完整鏈路：
@@ -63,7 +63,7 @@ TG → chat_history → analyzer → exporter → event → review → UP queue 
 
 ## Step C: Bot Routing 問題發現
 
-**觸發：** Nomi 反應「訊息都跑到百大競技場 bot，應該要去大腦」
+**觸發：** Owner 反應「訊息都跑到百大競技場 bot，應該要去大腦」
 
 **排查過程：**
 1. 查 BOT_TOKEN_MAP — tg_reply_event_builder.py 硬編碼 Previewtrade_bot
@@ -157,7 +157,7 @@ TG → chat_history → analyzer → exporter → event → review → UP queue 
 
 ## Step 10: Metadata Review Prep
 
-**做了什麼：** 整理 board-bot/watchdog/trading-server 的 review 資料給 Nomi。
+**做了什麼：** 整理 board-bot/watchdog/trading-server 的 review 資料給 Owner。
 三個都是：health_source=cross_checked, trust_level=verified, external_verified=false。
 
 ---

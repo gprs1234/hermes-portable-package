@@ -24,8 +24,8 @@ TZ = timezone(timedelta(hours=8))
 COMPANY_DIR = Path.home() / ".hermes" / "company"
 REGISTRY_DIR = Path.home() / ".hermes" / "plan_registry"
 REPORT_PATH = Path.home() / ".hermes" / "process" / "operational_patrol_report.json"
-ARENA_REPORT_PATH = Path("/mnt/c/Users/User/Desktop/百大交易競技場/arena/arena_control/plan_agent_report.json")
-ARENA_CONTESTANTS = Path("/mnt/c/Users/User/Desktop/百大交易競技場/arena/contestants")
+ARENA_REPORT_PATH = Path("<ARENA_ROOT>/arena/arena_control/plan_agent_report.json")
+ARENA_CONTESTANTS = Path("<ARENA_ROOT>/arena/contestants")
 MODULES = ["gpt_5.5", "opus_4.6", "opus_4.7", "deepseek_v4_pro", "mimo-v2-pro"]
 TARGET_PER_MODULE = 100
 

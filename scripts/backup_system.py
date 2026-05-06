@@ -39,7 +39,7 @@ REFERENCES_SRC = os.path.join(HERMES_HOME, "references")
 HERMES_SKILLS_SRC = os.path.join(HERMES_HOME, "skills")
 
 ARENA_ROOTS = [
-    "/mnt/c/Users/User/Desktop/百大交易競技場/arena",
+    "<ARENA_ROOT>/arena",
     os.path.expanduser("~/arena"),
     os.path.expanduser("~/projects/arena"),
 ]

@@ -165,19 +165,19 @@ Hermes Mobile Governance Loop v1 MVP
 - **Readonly integrate mcp-github** (👁️ OBSERVE)
   - reason: 外部 API 依賴（GitHub），score=3，Candidate B，需先確認 API 安全邊界
   - risk: medium
-  - confirmation: API 邊界設計 + Nomi review
+  - confirmation: API 邊界設計 + Owner review
 - **hermes-tg-bot core infrastructure integration** (👁️ OBSERVE)
   - reason: 核心基礎設施（tg_interface），需 CI2+ 設計，目前已有 core_readonly_card
   - risk: high
-  - confirmation: Core Infrastructure Integration Design + Nomi approval
+  - confirmation: Core Infrastructure Integration Design + Owner approval
 - **啟動 inert PLAN 服務** (👁️ OBSERVE)
   - reason: 觀察期內不啟動，等 Gateway 穩定後再考慮
   - risk: high
-  - confirmation: 觀察期結束 + Nomi 明確同意
+  - confirmation: 觀察期結束 + Owner 明確同意
 - **自動 TG Context Sync** (⚠️ NEEDS APPROVAL)
   - reason: 目前 context 更新需人工 approve，自動化需設計安全機制
   - risk: medium
-  - confirmation: Nomi approval + safety design
+  - confirmation: Owner approval + safety design
 
 ## 12. Observation Window
 
@@ -197,7 +197,7 @@ Hermes Mobile Governance Loop v1 MVP
 
 | Queue | Pending | Details |
 |-------|---------|---------|
-| TG Request Review | 75 | 待 Nomi review 的 TG request |
+| TG Request Review | 75 | 待 Owner review 的 TG request |
 | Context Update Review | 0 | 待審核的 context 更新 |
 | Reply Pending | 0 | 已批准待發送的 reply |
 | Universal Queue | 0 | 待分析的通用佇列項目 |
@@ -212,7 +212,7 @@ Hermes Mobile Governance Loop v1 MVP
 |------|--------|-------------|
 | No Trading Integration | 🔒 ACTIVE | trading-server / arena / pos-backend 全部未接入 |
 | No Auto Execution from TG | 🔒 ACTIVE | TG request 必須經過 review + approval 流程 |
-| No Direct active_context Write | 🔒 ACTIVE | context 更新需 Nomi approve + apply 兩步確認 |
+| No Direct active_context Write | 🔒 ACTIVE | context 更新需 Owner approve + apply 兩步確認 |
 | No Service Activation | 🔒 ACTIVE | inert PLAN 不可透過 Dashboard 啟動 |
 | No Board Bypass | 🔒 ACTIVE | 所有決策需經過董事會投票機制 |
 | Final Confirm Required | 🔒 ACTIVE | high/critical 操作需 final_confirm 才執行 |
@@ -246,7 +246,7 @@ Hermes Mobile Governance Loop v1 MVP
 - build_event_id: EVT-20260504-0b40
 - decision_id: BD-20260504-V1TEST
 - correlation_id: COR-20260504-077b
-- approved_by: nomi
+- approved_by: Owner
 - built_at: 2026-05-04T16:12:09
 - files_created: 4
 - registry_entry_added: True
@@ -301,7 +301,7 @@ Hermes Mobile Governance Loop v1 MVP
 - build_event_id: EVT-20260504-dadd
 - decision_id: BD-FINAL
 - correlation_id: COR-FINAL
-- approved_by: nomi
+- approved_by: Owner
 - built_at: 2026-05-04T15:53:06
 - files_created: 4
 - registry_entry_added: True
@@ -342,8 +342,8 @@ Hermes Mobile Governance Loop v1 MVP
 - name: 材料管理
 - status: archived
 - domain: pos
-- owner: nomi
-- heartbeat_path: /home/gprs1234/.hermes/plan_factory/plans/材料管理/heartbeat.json
+- owner: Owner
+- heartbeat_path: /home/<user>/.hermes/plan_factory/plans/材料管理/heartbeat.json
 
 ### Blueprint
 - description: 我想做一個材料管理系統，可以從手機查庫存，倉庫進出貨時要即時通知，資料不用很大，可能之後接 POS
@@ -393,11 +393,11 @@ Hermes Mobile Governance Loop v1 MVP
 
 - module_id: hermes-tg-bot
 - name: Hermes Telegram Bot
-- role: tg_interface — Nomi 的對話窗口
-- description: Nomi 的對話窗口 — hermes_bot.py。掛了 = Nomi 無法跟系統溝通
+- role: tg_interface — Owner 的對話窗口
+- description: Owner 的對話窗口 — hermes_bot.py。掛了 = Owner 無法跟系統溝通
 - status: registered
 - domain: infrastructure
-- owner: nomi
+- owner: Owner
 - criticality: MAXIMUM
 
 #### Health
@@ -488,7 +488,7 @@ Heartbeat metadata 可信度檢查。此區塊只讀，不修復、不重啟、�
 ### Safety Notes
 - Dashboard 不得把 CRITICAL 轉成 HEALTHY。
 - Dashboard 不得自動 patch board-bot / watchdog / trading-server。
-- trading-server 仍 blocked，任何交易相關操作需董事會 + Nomi final_confirm。
+- trading-server 仍 blocked，任何交易相關操作需董事會 + Owner final_confirm。
 - mt4_ea 的 manual_observed 只代表 CRITICAL 有人工接受的上下文，不代表修復。
 
 ## 20. Automation Candidate Queues
@@ -545,7 +545,7 @@ Heartbeat metadata 可信度檢查。此區塊只讀，不修復、不重啟、�
 
 ### Live Test Note
 - CLI→TG outbound 已有實際 sent event。
-- 新鮮 TG→CLI inbound 仍需要 Nomi 從 TG 發一則真人訊息，因為 agent 無法替人類製造 inbound user message。
+- 新鮮 TG→CLI inbound 仍需要 Owner 從 TG 發一則真人訊息，因為 agent 無法替人類製造 inbound user message。
 
 ## 22. PLAN Detail: ai-dashboard (Readonly Integrated)
 
@@ -642,7 +642,7 @@ Heartbeat metadata 可信度檢查。此區塊只讀，不修復、不重啟、�
 Hermes 從顧問型 Agent 升級為一人公司作業系統。
 
 - operating_model: Agent Company OS (轉型中)
-- owner: Nomi (方向設定 / 最終決策)
+- owner: Owner (方向設定 / 最終決策)
 - company_os: Hermes (日常運作 / 自動化)
 - c_level_agents: 7 (CEO, COO, CTO, CFO, CMO, CHRO, CAO)
 - business_units: 1 (arena / 百大交易競技場)
@@ -653,7 +653,7 @@ Hermes 從顧問型 Agent 升級為一人公司作業系統。
 
 | Agent ID | Role | Department | Manager | Mission |
 |----------|------|------------|---------|---------|
-| ceo | Chief Executive Officer | Executive | Nomi | 確保公司方向正確、資源分配合理、各部門協調運作 |
+| ceo | Chief Executive Officer | Executive | Owner | 確保公司方向正確、資源分配合理、各部門協調運作 |
 | coo | Chief Operating Officer | Operations | CEO | 確保所有 Business Units 的日常運作正常、流程順暢、績效達標 |
 | cto | Chief Technology Officer | Technology | CEO | 確保技術基礎設施穩定、代碼品質、系統架構合理 |
 | cfo | Chief Financial Officer | Finance | CEO | 監控 API 成本、Token 用量、資源使用效率 |
@@ -676,7 +676,7 @@ Hermes 從顧問型 Agent 升級為一人公司作業系統。
 - type: arena
 - status: degraded
 - lifecycle: operating
-- owner: Nomi
+- owner: Owner
 - primary_c_level: COO, CTO, CAO
 - process_health: alive
 - functional_health: degraded

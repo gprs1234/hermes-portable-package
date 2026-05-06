@@ -2,6 +2,7 @@
 """Send Telegram notification via bot API.
 Usage: python3 tg_notify.py "message text"
 """
+import os
 import urllib.request, json, pathlib, sys
 
 def get_token():
@@ -21,10 +22,14 @@ def get_token():
             return line.split('=', 1)[1].strip().strip('"').strip("'")
     return ""
 
-def send(msg, chat_id="6823341162"):
+def send(msg, chat_id=None):
     token = get_token()
     if not token:
         print("ERROR: No HERMES_BOT_TOKEN or TELEGRAM_BOT_TOKEN")
+        return False
+    chat_id = chat_id or os.environ.get("TELEGRAM_CHAT_ID", "")
+    if not chat_id:
+        print("ERROR: No TELEGRAM_CHAT_ID")
         return False
     body = json.dumps({"chat_id": chat_id, "text": msg}).encode()
     req = urllib.request.Request(

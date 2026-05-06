@@ -2,13 +2,13 @@
 """
 AC3: Concept Cell Intake Processor
 
-Converts Nomi's raw natural language into a structured Concept Cell.
+Converts Owner's raw natural language into a structured Concept Cell.
 Reads from stdin or --text argument, outputs YAML-formatted concept cell.
 
 Usage:
   echo "我想做攤車" | python3 concept_intake.py
   python3 concept_intake.py --text "百大這樣怪怪的"
-  python3 concept_intake.py --text "我想做攤車" --source nomi
+  python3 concept_intake.py --text "我想做攤車" --source Owner
 
 Output: concept cell YAML to stdout + saves to concept_cells/ directory
 """
@@ -81,7 +81,7 @@ def generate_concept_id() -> str:
     return f"CON-{date_str}-{seq:03d}"
 
 
-def build_concept_cell(raw_idea: str, source: str = "nomi") -> dict:
+def build_concept_cell(raw_idea: str, source: str = "Owner") -> dict:
     """Build a concept cell from raw idea."""
     now = datetime.now(TZ)
     concept_id = generate_concept_id()
@@ -252,7 +252,7 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(description="Concept Cell Intake Processor")
     parser.add_argument("--text", help="Raw idea text")
-    parser.add_argument("--source", default="nomi", help="Source (default: nomi)")
+    parser.add_argument("--source", default="Owner", help="Source (default: Owner)")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
     args = parser.parse_args()
 

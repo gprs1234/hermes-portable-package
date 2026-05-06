@@ -1,11 +1,11 @@
-# Nomi 帝國 — 全系統架構清單
+# Owner 帝國 — 全系統架構清單
 
 **建立日期**: 2026-05-01
 **目的**: 給 Opus 4.7 檢視用 — 完整列出每個組件做什麼、怎麼連的、有什麼問題
 
 ---
 
-## 一、核心原則（Nomi 的設計哲學）
+## 一、核心原則（Owner 的設計哲學）
 
 1. **創造路徑即全貌** — 不只記住結果，要記住「怎麼來的」，出問題才能沿路徑排查
 2. **全自治** — AI 管 AI，人類只在結構性崩潰時介入
@@ -18,7 +18,7 @@
 ## 二、架構層級
 
 ```
-Nomi（人類，只看 Telegram 通知）
+Owner（人類，只看 Telegram 通知）
   │
   ▼
 Hermes（主 Agent，CLI + Telegram）
@@ -262,7 +262,7 @@ def generate_signal(current_bar, history) -> {action, lots, stop_loss, take_prof
 ├── references/                   # 外包商（重型資料）
 └── session_archives/             # Session 存檔
 
-/mnt/c/Users/User/Desktop/百大交易競技場/arena/
+<ARENA_ROOT>/arena/
 ├── arena_control/
 │   ├── plan_agent.py             # PLAN Agent
 │   ├── worker_agent.py           # Worker Agent

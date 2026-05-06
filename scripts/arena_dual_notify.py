@@ -16,7 +16,7 @@ LEVEL_EMOJI = {
     "dispute": "⚔️",
 }
 
-CHAT_ID = "6823341162"
+CHAT_ID = os.environ.get("ARENA_CHAT_ID", os.environ.get("TELEGRAM_CHAT_ID", ""))
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOG_PATH = os.path.join(SCRIPT_DIR, "arena_notify_log.jsonl")
 ENV_PATH = os.path.expanduser("~/.hermes/.env")
@@ -43,8 +43,8 @@ def load_env_token():
 
 def send_telegram(token, text):
     """Send message via Telegram Bot API."""
-    if not token:
-        print("[warn] No ARENA_BOT_TOKEN set; skipping arena Telegram.", file=sys.stderr)
+    if not token or not CHAT_ID:
+        print("[warn] No ARENA_BOT_TOKEN or ARENA_CHAT_ID/TELEGRAM_CHAT_ID set; skipping arena Telegram.", file=sys.stderr)
         return False
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     payload = json.dumps({"chat_id": CHAT_ID, "text": text, "parse_mode": "HTML"}).encode()
